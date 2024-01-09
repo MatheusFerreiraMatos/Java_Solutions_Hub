@@ -1,8 +1,8 @@
 package com.projeto.javasolutionshub.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @Entity
 public class Collaboration {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String message;
     @ManyToOne

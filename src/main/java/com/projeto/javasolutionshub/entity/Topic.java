@@ -1,5 +1,6 @@
 package com.projeto.javasolutionshub.entity;
 
+import com.projeto.javasolutionshub.controller.dto.request.TopicRequest;
 import com.projeto.javasolutionshub.model.StatusTopic;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -22,21 +23,20 @@ public class Topic {
     private LocalDateTime creationDate;
     @Enumerated(EnumType.STRING)
     private StatusTopic status;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Member author;
     @OneToMany(mappedBy = "topic")
     private List<Collaboration> responses;
 
-    public Topic(Long id, String title, String message, LocalDateTime creationDate, StatusTopic status, Category category, Member author, List<Collaboration> responses) {
-        this.id = id;
-        this.title = title;
-        this.message = message;
+    public Topic(TopicRequest data) {
+        this.title = data.getTitle();
+        this.message = data.getMessage();
         this.creationDate = LocalDateTime.now();
         this.status = StatusTopic.NOT_ANSWERED;
-        this.category = category;
-        this.author = author;
+        this.category = data.getCategory();
+        this.author = data.getAuthor();
         this.responses = new ArrayList<>();
     }
 
