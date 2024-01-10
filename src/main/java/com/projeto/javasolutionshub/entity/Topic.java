@@ -30,13 +30,13 @@ public class Topic {
     @OneToMany(mappedBy = "topic")
     private List<Collaboration> responses;
 
-    public Topic(TopicRequest data, Category category) {
+    public Topic(TopicRequest data, Category category, Member member) {
         this.title = data.title();
         this.message = data.message();
         this.creationDate = LocalDateTime.now();
         this.status = StatusTopic.NOT_ANSWERED;
         this.category = category;
-        this.author = data.author();
+        this.author = member;
         this.responses = new ArrayList<>();
     }
 

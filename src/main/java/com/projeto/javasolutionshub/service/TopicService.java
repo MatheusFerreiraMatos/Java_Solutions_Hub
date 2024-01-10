@@ -3,17 +3,13 @@ package com.projeto.javasolutionshub.service;
 import com.projeto.javasolutionshub.controller.dto.request.TopicRequest;
 import com.projeto.javasolutionshub.controller.dto.response.TopicResponse;
 import com.projeto.javasolutionshub.entity.Category;
+import com.projeto.javasolutionshub.entity.Member;
 import com.projeto.javasolutionshub.entity.Topic;
 import com.projeto.javasolutionshub.repository.TopicRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 @Service
 public class TopicService {
@@ -24,10 +20,14 @@ public class TopicService {
     @Autowired
     private CategoryService categoryService;
 
-    public TopicResponse createTopic(TopicRequest data) {
-        Category category = categoryService.validateCategory(data.categoryId());
+    @Autowired
+    private MemberService memberService;
 
-        Topic topic = new Topic(data, category);
+    public TopicResponse createTopic(TopicRequest data, Member mainMember) {
+        Category category = categoryService.validateCategory(data.categoryId());
+        Member member = memberService.getMember(mainMember.getUsername());
+
+        Topic topic = new Topic(data, category, member);
         repository.save(topic);
 
         return new TopicResponse(topic);

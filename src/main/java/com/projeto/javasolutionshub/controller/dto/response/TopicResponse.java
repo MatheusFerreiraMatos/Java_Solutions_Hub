@@ -1,9 +1,9 @@
 package com.projeto.javasolutionshub.controller.dto.response;
 
-import com.projeto.javasolutionshub.entity.Category;
 import com.projeto.javasolutionshub.entity.Collaboration;
 import com.projeto.javasolutionshub.entity.Topic;
 import com.projeto.javasolutionshub.model.StatusTopic;
+import com.projeto.javasolutionshub.model.TypeCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,7 +14,8 @@ public record TopicResponse(
         String message,
         LocalDateTime creationDate,
         StatusTopic status,
-        Category category,
+        String author,
+        TypeCategory nameCategory,
         List<Collaboration> responses
 ) {
     public TopicResponse(Topic topic) {
@@ -24,7 +25,8 @@ public record TopicResponse(
                 topic.getMessage(),
                 topic.getCreationDate(),
                 topic.getStatus(),
-                topic.getCategory(),
+                topic.getAuthor().getFirstName(),
+                topic.getCategory().getName(),
                 topic.getResponses()
         );
     }
