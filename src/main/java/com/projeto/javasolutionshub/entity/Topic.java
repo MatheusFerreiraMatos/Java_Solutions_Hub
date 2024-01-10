@@ -31,12 +31,12 @@ public class Topic {
     private List<Collaboration> responses;
 
     public Topic(TopicRequest data, Category category) {
-        this.title = data.getTitle();
-        this.message = data.getMessage();
+        this.title = data.title();
+        this.message = data.message();
         this.creationDate = LocalDateTime.now();
         this.status = StatusTopic.NOT_ANSWERED;
         this.category = category;
-        this.author = data.getAuthor();
+        this.author = data.author();
         this.responses = new ArrayList<>();
     }
 

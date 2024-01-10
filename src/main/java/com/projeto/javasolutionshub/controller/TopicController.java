@@ -23,7 +23,7 @@ public class TopicController {
     public ResponseEntity register(@RequestBody@Valid TopicRequest topicRequest, UriComponentsBuilder uriBuilder) {
         TopicResponse topicResponse = service.createTopic(topicRequest);
 
-        var uri = uriBuilder.path("/topics/{id}").buildAndExpand(topicResponse.getId()).toUri();
+        var uri = uriBuilder.path("/topics/{id}").buildAndExpand(topicResponse.id()).toUri();
 
         return ResponseEntity.created(uri).body(topicResponse);
     }

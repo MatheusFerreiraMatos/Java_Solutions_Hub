@@ -25,7 +25,7 @@ public class TopicService {
     private CategoryService categoryService;
 
     public TopicResponse createTopic(TopicRequest data) {
-        Category category = categoryService.validateCategory(data.getCategoryId());
+        Category category = categoryService.validateCategory(data.categoryId());
 
         Topic topic = new Topic(data, category);
         repository.save(topic);
