@@ -14,7 +14,7 @@ public class CategoryService {
     @Autowired
     private CategoryRepository repository;
 
-    public Optional<Category> validateCategory(TypeCategory name) {
-        return repository.findByName(name);
+    public Optional<Category> validateCategory(Long categoryId) {
+        return repository.findById(categoryId);
     }
 }

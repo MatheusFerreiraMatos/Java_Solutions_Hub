@@ -22,7 +22,7 @@ public class TopicService {
     private CategoryService categoryService;
 
     public TopicResponse createTopic(TopicRequest data) {
-        Optional<Category> category = categoryService.validateCategory(data.getCategory().getName());
+        Optional<Category> category = categoryService.validateCategory(data.getCategoryId());
 
         if (category.isEmpty()) {
             throw new ResponseStatusException(
@@ -30,8 +30,7 @@ public class TopicService {
             );
         }
 
-        Topic topic = new Topic(data);
-        topic.setCategory(category.get());
+        Topic topic = new Topic(data, category.get());
         repository.save(topic);
 
         return new TopicResponse(topic);
