@@ -1,6 +1,9 @@
 package com.projeto.javasolutionshub.controller;
 
 import com.projeto.javasolutionshub.controller.dto.request.AuthenticationRequest;
+import com.projeto.javasolutionshub.controller.dto.response.TokenJWTResponse;
+import com.projeto.javasolutionshub.entity.Member;
+import com.projeto.javasolutionshub.service.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +21,17 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationManager manager;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping
     public ResponseEntity logIn(@RequestBody @Valid AuthenticationRequest authRequest) {
-        var token = new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password());
-        var authentication = manager.authenticate(token);
-        return ResponseEntity.ok().build();
+        var authenticationToken = new UsernamePasswordAuthenticationToken(authRequest.username(), authRequest.password());
+        var authentication = manager.authenticate(authenticationToken);
+
+        var tokenJWT = tokenService.generateToken((Member) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new TokenJWTResponse(tokenJWT));
     }
 
 }
