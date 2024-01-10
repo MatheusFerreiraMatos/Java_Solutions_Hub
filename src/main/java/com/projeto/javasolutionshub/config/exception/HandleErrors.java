@@ -1,4 +1,4 @@
-package com.projeto.javasolutionshub.exception;
+package com.projeto.javasolutionshub.config.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;

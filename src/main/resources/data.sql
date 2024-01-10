@@ -1,5 +1,5 @@
 INSERT INTO member(first_name, last_name, username, email, password) VALUES
-('Matheus', 'Matos', 'mftech', 'claudio@educa.com', '$2a$10$6lxREBaPXyXsQWKnq.TcJupRVne6dc3OthI4kS/ow3eqYoe0nSwpm');
+('Matheus', 'Matos', 'mftech', 'claudio@educa.com', '$2a$10$Y50UaMFOxteibQEYLrwuHeehHYfcoafCopUazP12.rqB41bsolF5.');
 
 INSERT INTO category(name) VALUES
 ('ESTRUTURAS_DE_DADOS'),
