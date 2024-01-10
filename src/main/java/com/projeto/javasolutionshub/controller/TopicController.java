@@ -5,6 +5,9 @@ import com.projeto.javasolutionshub.controller.dto.response.TopicResponse;
 import com.projeto.javasolutionshub.service.TopicService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,5 +26,12 @@ public class TopicController {
         var uri = uriBuilder.path("/topics/{id}").buildAndExpand(topicResponse.getId()).toUri();
 
         return ResponseEntity.created(uri).body(topicResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<TopicResponse>> list(
+            @PageableDefault(size = 10, sort = {"creationDate"}) Pageable pageable) {
+        var page = service.listTopics(pageable);
+        return ResponseEntity.ok(page);
     }
 }
