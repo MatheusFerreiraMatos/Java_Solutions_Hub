@@ -1,5 +1,6 @@
 package com.projeto.javasolutionshub.service;
 
+import com.projeto.javasolutionshub.controller.dto.request.TopicRequest;
 import com.projeto.javasolutionshub.entity.Member;
 import com.projeto.javasolutionshub.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,4 +15,5 @@ public class MemberService {
     public Member getMember(String username) {
         return (Member) repository.findByUsername(username);
     }
+
 }

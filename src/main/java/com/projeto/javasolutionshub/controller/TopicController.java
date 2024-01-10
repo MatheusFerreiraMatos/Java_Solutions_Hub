@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -25,7 +26,7 @@ public class TopicController {
     public ResponseEntity register(@RequestBody@Valid TopicRequest topicRequest,
                                    @AuthenticationPrincipal Member member,
                                    UriComponentsBuilder uriBuilder) {
-        System.out.println("Usuário sessão:   " + member);
+
         TopicResponse topicResponse = service.createTopic(topicRequest, member);
 
         var uri = uriBuilder.path("/topics/{id}").buildAndExpand(topicResponse.id()).toUri();
@@ -39,4 +40,14 @@ public class TopicController {
         var page = service.listTopics(pageable);
         return ResponseEntity.ok(page);
     }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity update(@PathVariable Long id,
+                                 @RequestBody @Valid TopicRequest topicRequest,
+                                 @AuthenticationPrincipal Member member) {
+        TopicResponse topicResponse = service.updateTopic(id, topicRequest, member);
+        return ResponseEntity.ok(topicResponse);
+    }
+
 }
