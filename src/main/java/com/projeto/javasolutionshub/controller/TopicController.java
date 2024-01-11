@@ -50,4 +50,12 @@ public class TopicController {
         return ResponseEntity.ok(topicResponse);
     }
 
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity delete(@PathVariable Long id,
+                                 @AuthenticationPrincipal Member member) {
+        service.deleteTopic(id, member);
+        return ResponseEntity.noContent().build();
+    }
+
 }
