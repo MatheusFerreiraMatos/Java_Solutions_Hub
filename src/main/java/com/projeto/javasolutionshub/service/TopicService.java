@@ -6,13 +6,12 @@ import com.projeto.javasolutionshub.entity.Category;
 import com.projeto.javasolutionshub.entity.Member;
 import com.projeto.javasolutionshub.entity.Topic;
 import com.projeto.javasolutionshub.repository.TopicRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -43,28 +42,32 @@ public class TopicService {
     }
 
     public TopicResponse updateTopic(Long id, TopicRequest topicRequest, Member mainMember) {
-        Optional<Topic> topic = repository.findById(id);
+        validateAccess(id, mainMember);
 
-        if (topic.get().getAuthor().getUsername().equals(mainMember.getUsername())) {
-            Topic updateTopic = topic.get();
-            Category category = categoryService.validateCategory(topicRequest.categoryId());
-            updateTopic.setTitle(topicRequest.title());
-            updateTopic.setMessage(topicRequest.message());
-            updateTopic.setCategory(category);
-            return new TopicResponse(updateTopic);
-        }
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        Topic topic = repository.getReferenceById(id);
+        Category category = categoryService.validateCategory(topicRequest.categoryId());
+
+        topic.setTitle(topicRequest.title());
+        topic.setMessage(topicRequest.message());
+        topic.setCategory(category);
+
+        return new TopicResponse(repository.save(topic));
     }
 
     public void deleteTopic(Long id, Member mainMember) {
+        validateAccess(id, mainMember);
+        repository.deleteById(id);
+    }
+
+    private void validateAccess(Long id, Member mainMember) {
         Optional<Topic> topic = repository.findById(id);
 
-        if (topic.isPresent()) {
-            if (topic.get().getAuthor().getUsername().equals(mainMember.getUsername())) {
-                repository.deleteById(id);
-            } else {
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-            }
+        if (topic.isEmpty()) {
+            throw new EntityNotFoundException("Tópico não encontrado.");
+        }
+
+        if (!topic.get().getAuthor().getUsername().equals(mainMember.getUsername())) {
+            throw new AccessDeniedException("Você não tem permissão para realizar esta operação.");
         }
     }
 

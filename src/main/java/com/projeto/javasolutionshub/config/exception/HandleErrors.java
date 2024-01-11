@@ -1,5 +1,6 @@
 package com.projeto.javasolutionshub.config.exception;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +16,8 @@ import java.util.List;
 public class HandleErrors {
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity handleError404() {
-        return ResponseEntity.notFound().build();
+    public ResponseEntity handleError404(EntityNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -32,8 +33,8 @@ public class HandleErrors {
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity tratarErroAcessoNegado() {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Acesso negado");
+    public ResponseEntity handleErrorAccessDenied(AccessDeniedException exception) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(exception.getMessage());
     }
 
 }

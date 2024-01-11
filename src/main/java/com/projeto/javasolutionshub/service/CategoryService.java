@@ -17,7 +17,7 @@ public class CategoryService {
 
     public Category validateCategory(Long categoryId) {
         return repository.findById(categoryId)
-                .orElseThrow(EntityNotFoundException::new);
+                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada."));
     }
 
 }

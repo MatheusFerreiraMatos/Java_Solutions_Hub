@@ -23,9 +23,9 @@ public class Topic {
     private LocalDateTime creationDate;
     @Enumerated(EnumType.STRING)
     private StatusTopic status;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Category category;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Member author;
     @OneToMany(mappedBy = "topic")
     private List<Collaboration> responses;
