@@ -1,5 +1,6 @@
 package com.projeto.javasolutionshub.controller.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.projeto.javasolutionshub.entity.Collaboration;
 import com.projeto.javasolutionshub.entity.Topic;
 import com.projeto.javasolutionshub.model.StatusTopic;
@@ -12,6 +13,7 @@ public record TopicResponse(
         Long id,
         String title,
         String message,
+        @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime creationDate,
         StatusTopic status,
         String author,
