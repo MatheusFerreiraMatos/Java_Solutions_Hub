@@ -3,8 +3,6 @@ package com.projeto.javasolutionshub.controller.dto.response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.projeto.javasolutionshub.entity.Collaboration;
 import com.projeto.javasolutionshub.entity.Topic;
-import com.projeto.javasolutionshub.model.StatusTopic;
-import com.projeto.javasolutionshub.model.TypeCategory;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,9 +13,9 @@ public record TopicResponse(
         String message,
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
         LocalDateTime creationDate,
-        StatusTopic status,
+        String status,
         String author,
-        TypeCategory nameCategory,
+        String nameCategory,
         List<Collaboration> responses
 ) {
     public TopicResponse(Topic topic) {
@@ -26,7 +24,7 @@ public record TopicResponse(
                 topic.getTitle(),
                 topic.getMessage(),
                 topic.getCreationDate(),
-                topic.getStatus(),
+                String.valueOf(topic.getStatus()),
                 topic.getAuthor().getFirstName(),
                 topic.getCategory().getName(),
                 topic.getResponses()

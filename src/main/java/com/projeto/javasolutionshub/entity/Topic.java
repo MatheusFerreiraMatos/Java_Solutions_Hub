@@ -1,7 +1,6 @@
 package com.projeto.javasolutionshub.entity;
 
 import com.projeto.javasolutionshub.controller.dto.request.TopicRequest;
-import com.projeto.javasolutionshub.model.StatusTopic;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,6 +37,13 @@ public class Topic {
         this.category = category;
         this.author = member;
         this.responses = new ArrayList<>();
+    }
+
+    public enum StatusTopic{
+        NOT_ANSWERED,
+        NOT_SOLVED,
+        SOLVED,
+        CLOSED;
     }
 
 }
